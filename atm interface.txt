@@ -1,0 +1,149 @@
+import java.io.*;
+import java.util.*;
+import java.sql.Timestamp;
+public class Account{
+	Scanner input=new Scanner(System.in);
+	Timestamp ctime=new Timestamp(System.currentTimeMillis());
+	String user;
+	int balance=0;
+	String str;
+	public void functionalities() {
+		System.out.println("Select your choice");
+		System.out.println("1.With draw");
+		System.out.println("2.Deposit");
+		System.out.println("3.Transfer");
+		System.out.println("4.Balance");
+		System.out.println("5.Quit");
+		System.out.println("Enter your choice ");
+		int choose=input.nextInt();
+		Account usr=new Account();
+		switch(choose) {
+		case 1:
+			balance=usr.withdraw(balance);
+			break;
+		case 2:
+			balance=usr.deposit(balance);
+			break;
+		case 3:
+			balance=usr.transfer(balance);
+			break;
+		case 4:
+			balance=usr.balance(balance);
+			break;
+		case 5:
+			usr.quit();
+			break;
+		default:
+			System.out.println("Invalid choice!..Enter valid choice ");
+			functionalities();
+		}
+	}
+	public int withdraw(int b) {
+		balance=b;
+		System.out.println("Enter the amount you want to withdraw");
+		int wd=input.nextInt();
+		try {
+		if(wd>balance) {
+			System.out.println("You have insufficient balance to withdraw");
+		}
+		else if(wd<=balance) {
+			balance=balance-wd;
+			System.out.println("Withdraw successful at "+ctime);
+		}
+		}catch(Exception e) {
+
+		}
+		functionalities();
+		return balance;
+	}
+	public int deposit(int b) {
+		balance=b;
+		System.out.println("Enter the amount you want to deposit");
+		int dp=input.nextInt();
+		try {
+		if(dp<100000) {
+		balance=balance+dp;
+		System.out.println("Deposit Sucessfull at "+ctime );
+		System.out.println("Your current balance is"+balance);
+		}
+		else {
+			System.out.println("Can't deposit more than 1 lakh");
+		}
+		}catch(Exception e) {
+
+		}
+		functionalities();
+		return balance;
+	}
+	public int transfer(int b) {
+		balance=b;
+		String toacc;
+		int tamount;
+		System.out.println("Enter the user you want to transfer amount");
+		toacc=input.next();
+		System.out.println("Enter the amount to transfer");
+		tamount=input.nextInt();
+		try {
+		balance=balance-tamount;
+		System.out.println("Transaction successful");
+		}catch(Exception e) {
+
+		}
+		functionalities();
+		return balance;
+	}
+	public int balance(int b) {
+		balance=b;
+		System.out.println("Your current balance is"+balance);
+		functionalities();
+		return balance;
+	}
+	public void quit() {
+		System.out.println("Thank you...");
+	}
+}
+
+import java.io.*;
+import java.util.*;
+public class Atm{
+	public static void main(String args[]) {
+		Login obj=new Login();
+		obj.logmeth();
+	}
+}
+
+import java.io.*;
+import java.util.*;
+import java.text.DecimalFormat; 
+public class Login extends Account{
+	Scanner input=new Scanner(System.in);
+	DecimalFormat money=new DecimalFormat("'$'###,##0.00");
+	HashMap <String,Integer> data=new HashMap<String,Integer>();
+	Account usr=new Account();
+	String user;
+	int pin;
+	public int logmeth() {
+		int x=1;
+		do {
+			try {
+			data.put("priya", 12345);
+			data.put("riya", 67890);
+			System.out.println("WELCOME TO ATM INTERFACE.....");
+			System.out.println("Enter user name..");
+			String usr=this.user=input.next();
+			System.out.println("Enter your pin..");
+			this.pin=input.nextInt();
+			}catch(Exception e) {
+				System.out.println("invalid characters..");
+				x=2;
+			}
+			if(data.containsKey(this.user)&& data.get(this.user)==this.pin){
+				System.out.println("Valid login.."+" "+"You can now perform your transactions");
+				usr.functionalities();
+			}else {
+				System.out.println("Invalid Login");
+			}
+	}while(x==1);
+	return 0;
+	}
+}
